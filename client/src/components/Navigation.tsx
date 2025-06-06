@@ -15,10 +15,10 @@ const Navigation: React.FC = () => {
           <Link to="/bacteria">Bacteria</Link>
         </li>
         <li>
-          <Link to="/add-antibiotic">Add Antibiotic</Link>
+          <Link to="/add-antibiotic">Add new Antibiotic</Link>
         </li>
         <li>
-          <Link to="/add-bacteria">Add Bacteria</Link>
+          <Link to="/add-bacteria">Add new Bacteria</Link>
         </li>
       </ul>
     </nav>
