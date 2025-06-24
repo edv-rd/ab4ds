@@ -6,19 +6,11 @@ const Navigation: React.FC = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
           <Link to="/antibiotics">Antibiotics</Link>
         </li>
+
         <li>
           <Link to="/bacteria">Bacteria</Link>
-        </li>
-        <li>
-          <Link to="/add-antibiotic">Add new Antibiotic</Link>
-        </li>
-        <li>
-          <Link to="/add-bacteria">Add new Bacteria</Link>
         </li>
       </ul>
     </nav>

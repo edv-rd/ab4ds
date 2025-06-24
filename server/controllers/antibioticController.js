@@ -1,4 +1,6 @@
+const Bacteria = require('../schemas/Bacteria');
 const Antibiotic = require('../schemas/Antibiotic');
+const mongoose = require("mongoose");
 
 const getAllAntibiotics = async (req, res) => {
   try {
@@ -10,12 +12,44 @@ const getAllAntibiotics = async (req, res) => {
 };
 
 const addAntibiotic = async (req, res) => {
-  const { name, group, bacteria } = req.body;
+  let {
+    name,
+    laktam,
+    group,
+    trivia,
+    bacteriaKilled,
+    bacteriaNotKilled,
+    dosage,
+    observandum,
+  } = req.body;
+
+  // Try to resolve bacteria names to ObjectIds, fallback to string if not found
+  const resolveBacteria = async (arr) => {
+    return Promise.all(
+      (arr || []).map(async (bact) => {
+        // Try to find by name first
+        let found = await Bacteria.findOne({ name: bact });
+        // If not found and bact is a valid ObjectId, try by ID
+        if (!found && mongoose.Types.ObjectId.isValid(bact)) {
+          found = await Bacteria.findById(bact);
+        }
+        return found ? found._id : bact; // fallback to string if not found
+      })
+    );
+  };
+
+  bacteriaKilled = (await resolveBacteria(bacteriaKilled)).filter(id => mongoose.Types.ObjectId.isValid(id));
+  bacteriaNotKilled = (await resolveBacteria(bacteriaNotKilled)).filter(id => mongoose.Types.ObjectId.isValid(id));
 
   const newAntibiotic = new Antibiotic({
     name,
+    laktam,
     group,
-    bacteria,
+    trivia,
+    bacteriaKilled,
+    bacteriaNotKilled,
+    dosage,
+    observandum,
   });
 
   try {

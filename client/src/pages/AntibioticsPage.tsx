@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TreeView from "../components/TreeView";
 import SearchBar from "../components/SearchBar";
+import AddForm from "../components/AddForm";
 import { fetchAntibiotics } from "../utils/fetchAntibiotics";
 
 import type { Antibiotic } from "../types";
@@ -42,6 +43,7 @@ const AntibioticsPage: React.FC = () => {
         }}
       />
       <TreeView data={antibiotics} />
+      <AddForm />
     </div>
   );
 };
