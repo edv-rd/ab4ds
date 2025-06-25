@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import TreeView from "../components/TreeView";
 import SearchBar from "../components/SearchBar";
 import AddForm from "../components/AddForm";
+import ViewSpecimen from "../components/ViewSpecimen";
 import { fetchAntibiotics } from "../utils/fetchAntibiotics";
 
 import type { Antibiotic } from "../types";
 
 const AntibioticsPage: React.FC = () => {
+  const { group, name } = useParams<{ name?: string; group?: string }>();
   const [antibiotics, setAntibiotics] = useState<Antibiotic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedAntibiotic, setSelectedAntibiotic] = useState<string | null>(
+    null
+  );
+  const [selectedAntibioticGroup, setSelectedAntibioticGroup] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +34,21 @@ const AntibioticsPage: React.FC = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (name) {
+      // Perform some action based on the `name` parameter
+      setSelectedAntibiotic(name);
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (group) {
+      // Perform some action based on the `group` parameter
+      setSelectedAntibioticGroup(group);
+      console.log("Selected group:", selectedAntibioticGroup);
+    }
+  }, [group]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -42,7 +66,14 @@ const AntibioticsPage: React.FC = () => {
           console.log("Search query:", query);
         }}
       />
-      <TreeView data={antibiotics} />
+      {selectedAntibiotic && (
+        <ViewSpecimen name={selectedAntibiotic} antibiotic />
+      )}
+
+      <TreeView
+        data={antibiotics}
+        setSelectedAntibiotic={setSelectedAntibiotic}
+      />
       <AddForm />
     </div>
   );

@@ -11,6 +11,30 @@ const getAllAntibiotics = async (req, res) => {
   }
 };
 
+const getAntibiotic = async (req, res) => {
+  try {
+    const antibiotic = await Antibiotic.findById(req.params.id);
+    if (!antibiotic) {
+      return res.status(404).json({ message: "Antibiotic not found" });
+    }
+    res.status(200).json(antibiotic);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+const getAntibioticByName = async (req, res) => {
+  try {
+    const antibiotic = await Antibiotic.findOne({ name: req.params.name });
+    if (!antibiotic) {
+      return res.status(404).json({ message: "Antibiotic not found" });
+    }
+    res.status(200).json(antibiotic);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const addAntibiotic = async (req, res) => {
   let {
     name,
@@ -78,6 +102,8 @@ const updateAntibiotic = async (req, res) => {
 
 module.exports = {
   getAllAntibiotics,
+  getAntibiotic,
+  getAntibioticByName,
   addAntibiotic,
   updateAntibiotic
 };

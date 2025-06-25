@@ -32,7 +32,6 @@ const AddForm: React.FC = () => {
     if (isAntibiotic) {
       // Prepare Antibiotic data
       const data = {
-        id: "", // or generate a temporary id if needed
         name: antibioticName,
         laktam,
         group,

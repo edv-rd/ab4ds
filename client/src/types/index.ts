@@ -1,5 +1,4 @@
 export interface Antibiotic {
-  id: string;
   name: string;
   laktam: boolean;
   group: string;

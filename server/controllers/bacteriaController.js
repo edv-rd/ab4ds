@@ -14,7 +14,7 @@ const getBacteria = async (req, res) => {
 const addBacteria = async (req, res) => {
   let {
     name,
-    gramStain,
+    gramStainPositive,
     shape,
     capsule,
     aerob,
@@ -50,7 +50,7 @@ const addBacteria = async (req, res) => {
   try {
     const bacteria = new Bacteria({
       name,
-      gramStain,
+      gramStainPositive,
       shape,
       capsule,
       aerob,
@@ -83,8 +83,21 @@ const updateBacteria = async (req, res) => {
   }
 };
 
+const getBacteriaByName = async (req, res) => {
+  try {
+    const bacteria = await Bacteria.findOne({ name: req.params.name });
+    if (!bacteria) {
+      return res.status(404).json({ message: "Bacteria not found" });
+    }
+    res.status(200).json(bacteria);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getBacteria,
   addBacteria,
-  updateBacteria
+  updateBacteria,
+  getBacteriaByName
 };

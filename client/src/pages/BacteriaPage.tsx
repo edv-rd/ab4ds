@@ -3,11 +3,13 @@ import TreeView from "../components/TreeView.tsx";
 import { fetchBacteria } from "../utils/fetchBacteria";
 import type { Bacteria } from "../types";
 import SearchBar from "../components/SearchBar.tsx";
+import ViewSpecimen from "../components/ViewSpecimen";
 
 const BacteriaPage: React.FC = () => {
   const [bacteria, setBacteria] = useState<Bacteria[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedBacteria, setSelectedBacteria] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +42,10 @@ const BacteriaPage: React.FC = () => {
           console.log("Search query:", query);
         }}
       />
-      <TreeView data={bacteria} />
+      {selectedBacteria && (
+        <ViewSpecimen name={selectedBacteria} antibiotic={false} />
+      )}
+      <TreeView data={bacteria} setSelectedBacteria={setSelectedBacteria} />
     </div>
   );
 };

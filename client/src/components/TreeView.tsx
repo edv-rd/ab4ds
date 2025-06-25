@@ -3,20 +3,25 @@ import type { Antibiotic, Bacteria } from "../types";
 
 interface TreeViewProps {
   data: Antibiotic[] | Bacteria[];
+  setSelectedAntibiotic?: (antibioticName: string) => void;
+  setSelectedBacteria?: (bacteriaName: string) => void;
 }
 
-const TreeView: React.FC<TreeViewProps> = ({ data }) => {
-  const [selectedAntibiotic, setSelectedAntibiotic] =
-    React.useState<Antibiotic | null>(null);
-  const [selectedBacteria, setSelectedBacteria] =
-    React.useState<Bacteria | null>(null);
-
+const TreeView: React.FC<TreeViewProps> = ({
+  data,
+  setSelectedAntibiotic,
+  setSelectedBacteria,
+}) => {
   const handleAntibioticSelect = (antibiotic: Antibiotic) => {
-    setSelectedAntibiotic(antibiotic);
+    if (setSelectedAntibiotic) {
+      setSelectedAntibiotic(antibiotic.name); // Pass the name (or id if you prefer)
+    }
   };
 
   const handleBacteriaSelect = (bacteria: Bacteria) => {
-    setSelectedBacteria(bacteria);
+    if (setSelectedBacteria) {
+      setSelectedBacteria(bacteria.name);
+    }
   };
 
   // Type guard to check if the data is Antibiotic[]
@@ -34,7 +39,7 @@ const TreeView: React.FC<TreeViewProps> = ({ data }) => {
           <ul>
             {data.map((antibiotic) => (
               <li
-                key={antibiotic.id}
+                key={antibiotic.name}
                 onClick={() => handleAntibioticSelect(antibiotic)}
               >
                 {antibiotic.name}
@@ -42,12 +47,6 @@ const TreeView: React.FC<TreeViewProps> = ({ data }) => {
               </li>
             ))}
           </ul>
-          {selectedAntibiotic && (
-            <div>
-              <h3>Selected Antibiotic:</h3>
-              <pre>{JSON.stringify(selectedAntibiotic, null, 2)}</pre>
-            </div>
-          )}
         </>
       ) : (
         <>
@@ -55,20 +54,14 @@ const TreeView: React.FC<TreeViewProps> = ({ data }) => {
           <ul>
             {data.map((bacterium) => (
               <li
-                key={bacterium.id}
+                key={bacterium.name}
                 onClick={() => handleBacteriaSelect(bacterium)}
               >
                 {bacterium.name}
-                <div>{bacterium.shortInfo}</div>
+                <div>{bacterium.trivia}</div>
               </li>
             ))}
           </ul>
-          {selectedBacteria && (
-            <div>
-              <h3>Selected Bacteria:</h3>
-              <pre>{JSON.stringify(selectedBacteria, null, 2)}</pre>
-            </div>
-          )}
         </>
       )}
     </div>
