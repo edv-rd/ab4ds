@@ -13,7 +13,9 @@ const getAllAntibiotics = async (req, res) => {
 
 const getAntibiotic = async (req, res) => {
   try {
-    const antibiotic = await Antibiotic.findById(req.params.id);
+    const antibiotic = await Antibiotic.findById(req.params.id)
+      .populate("bacteriaKilled")
+      .populate("bacteriaNotKilled");
     if (!antibiotic) {
       return res.status(404).json({ message: "Antibiotic not found" });
     }
@@ -25,7 +27,9 @@ const getAntibiotic = async (req, res) => {
 
 const getAntibioticByName = async (req, res) => {
   try {
-    const antibiotic = await Antibiotic.findOne({ name: req.params.name });
+    const antibiotic = await Antibiotic.findOne({ name: req.params.name })
+      .populate("bacteriaKilled")
+      .populate("bacteriaNotKilled");
     if (!antibiotic) {
       return res.status(404).json({ message: "Antibiotic not found" });
     }
@@ -45,6 +49,7 @@ const addAntibiotic = async (req, res) => {
     bacteriaNotKilled,
     dosage,
     observandum,
+    baktericid
   } = req.body;
 
   // Try to resolve bacteria names to ObjectIds, fallback to string if not found
@@ -62,8 +67,8 @@ const addAntibiotic = async (req, res) => {
     );
   };
 
-  bacteriaKilled = (await resolveBacteria(bacteriaKilled)).filter(id => mongoose.Types.ObjectId.isValid(id));
-  bacteriaNotKilled = (await resolveBacteria(bacteriaNotKilled)).filter(id => mongoose.Types.ObjectId.isValid(id));
+  bacteriaKilled = await resolveBacteria(bacteriaKilled);
+  bacteriaNotKilled = await resolveBacteria(bacteriaNotKilled);
 
   const newAntibiotic = new Antibiotic({
     name,
@@ -74,6 +79,7 @@ const addAntibiotic = async (req, res) => {
     bacteriaNotKilled,
     dosage,
     observandum,
+    baktericid
   });
 
   try {

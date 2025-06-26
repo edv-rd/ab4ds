@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getBacteria,
+  getAllBacteria,
   addBacteria,
   updateBacteria,
   getBacteriaByName
@@ -9,7 +10,9 @@ const {
 const router = express.Router();
 
 // Route to get all bacteria
-router.get("/", getBacteria);
+router.get("/", getAllBacteria);
+
+router.get("/:id", getBacteria);
 
 // Route to add a new bacteria
 router.post("/", addBacteria);

@@ -8,8 +8,8 @@ const BacteriaSchema = new Schema({
   capsule: { type: Boolean, required: true }, // "ej kapslad"
   aerob: { type: Boolean, required: true }, // "ej kapslad"
   laktamasProducer: { type: Boolean, required: true }, // "ej kapslad"
-  antibioticsSensitive: [{ type: Schema.Types.ObjectId, ref: "Antibiotics", required: true }], // egentligen en array med Antibiotic-schemas
-  antibioticsResistent: [{ type: Schema.Types.ObjectId, ref: "Antibiotics", required: true }], // egentligen en array med Antibiotic-schemas
+  antibioticsSensitive: [{ type: String }], // egentligen en array med Antibiotic-schemas
+  antibioticsResistent: [{ type: String }], // egentligen en array med Antibiotic-schemas
   extendedResistance: [{ type: String, required: true }], // antingen "ESBL" eller "MRSA" eller "VRE" eller "ingen känd"
   trivia: { type: String, required: true }, // "orsakar gärna:" eller "random fakta"
 });

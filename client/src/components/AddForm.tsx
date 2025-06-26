@@ -45,7 +45,7 @@ const AddForm: React.FC = () => {
         dosage,
         observandum: observandum.split(",").map((s) => s.trim()),
       };
-      // TODO: Send data to server
+      console.log("Submitting antibiotic:", data);
       putAntibiotic(data)
         .then((response) => {
           console.log("Antibiotic added successfully:", response);

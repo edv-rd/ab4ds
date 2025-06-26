@@ -2,7 +2,7 @@ const Bacteria = require('../schemas/Bacteria');
 const Antibiotic = require('../schemas/Antibiotic');
 const mongoose = require("mongoose");
 
-const getBacteria = async (req, res) => {
+const getAllBacteria = async (req, res) => {
   try {
     const bacteria = await Bacteria.find();
     res.status(200).json(bacteria);
@@ -10,6 +10,20 @@ const getBacteria = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getBacteria = async (req, res) => {
+  try {
+    const bacteria = await Bacteria.findById(req.params.id)
+      .populate("antibioticsSensitive")
+      .populate("antibioticsResistent");
+    if (!bacteria) {
+      return res.status(404).json({ message: "Antibiotic not found" });
+    }
+    res.status(200).json(bacteria);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const addBacteria = async (req, res) => {
   let {
@@ -97,6 +111,7 @@ const getBacteriaByName = async (req, res) => {
 
 module.exports = {
   getBacteria,
+  getAllBacteria,
   addBacteria,
   updateBacteria,
   getBacteriaByName
