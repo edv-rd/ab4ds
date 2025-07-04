@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchBacteria } from "../utils/fetchBacteria";
 import { fetchAntibiotics } from "../utils/fetchAntibiotics";
+import { useNavigate } from "react-router-dom";
 
 interface ViewSpecimenProps {
   name?: string;
@@ -42,11 +43,10 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
   const [data, setData] = useState<AntibioticData | BacteriaData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [linkedSpecimenName, setLinkedSpecimenName] = useState<string | null>(
-    null
-  );
+
   const [allBacteria, setAllBacteria] = useState<string[]>([]);
   const [allAntibiotics, setAllAntibiotics] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!name && !id) return;
@@ -89,17 +89,21 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
   if (!data) return <div>No data found.</div>;
 
   // If a linked specimen is selected, show it recursively
-  if (linkedSpecimenName) {
-    return (
-      <ViewSpecimen name={linkedSpecimenName ?? undefined} antibiotic={false} />
-    );
-  }
+
+  const containerClass =
+    "container bg-gray-800 rounded-lg shadow-md text-white mx-auto p-4 w-full flex flex-col items-left gap-4";
+
+  const h2Class = "text-2xl font-bold mb-4";
+
+  const buttonClass =
+    "text-blue-400 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50";
+  const ab = data as AntibioticData;
+  const bact = data as BacteriaData;
 
   if (antibiotic) {
-    const ab = data as AntibioticData;
     return (
-      <div style={{ border: "1px solid #ccc", padding: 16, margin: 16 }}>
-        <h2>{ab.name}</h2>
+      <div className={containerClass}>
+        <h2 className={h2Class}>{ab.name}</h2>
         <div>
           <strong>Laktam:</strong> {ab.laktam ? "Yes" : "No"}
         </div>
@@ -115,7 +119,12 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             {ab.bacteriaKilled.map((bactName) =>
               allBacteria.includes(bactName) ? (
                 <li key={bactName}>
-                  <button onClick={() => setLinkedSpecimenName(bactName)}>
+                  <button
+                    className={buttonClass}
+                    onClick={() =>
+                      navigate(`/bacteria/${encodeURIComponent(bactName)}`)
+                    }
+                  >
                     {bactName}
                   </button>
                 </li>
@@ -131,7 +140,12 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             {ab.bacteriaNotKilled.map((bactName) =>
               allBacteria.includes(bactName) ? (
                 <li key={bactName}>
-                  <button onClick={() => setLinkedSpecimenName(bactName)}>
+                  <button
+                    className={buttonClass}
+                    onClick={() =>
+                      navigate(`/bacteria/${encodeURIComponent(bactName)}`)
+                    }
+                  >
                     {bactName}
                   </button>
                 </li>
@@ -150,10 +164,9 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
       </div>
     );
   } else {
-    const bact = data as BacteriaData;
     return (
-      <div style={{ border: "1px solid #ccc", padding: 16, margin: 16 }}>
-        <h2>{bact.name}</h2>
+      <div className={containerClass}>
+        <h2 className={h2Class}>{bact.name}</h2>
         <div>
           <strong>Gram Stain Positive:</strong>{" "}
           {bact.gramStainPositive ? "Yes" : "No"}
@@ -168,7 +181,7 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
           <strong>Aerob:</strong> {bact.aerob ? "Yes" : "No"}
         </div>
         <div>
-          <strong>Laktamas Producer:</strong>{" "}
+          <strong>Laktamas Producer:</strong>
           {bact.laktamasProducer ? "Yes" : "No"}
         </div>
         <div>
@@ -177,7 +190,16 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             {bact.antibioticsSensitive.map((antibioticName) =>
               allAntibiotics.includes(antibioticName) ? (
                 <li key={antibioticName}>
-                  <button onClick={() => setLinkedSpecimenName(antibioticName)}>
+                  <button
+                    className={buttonClass}
+                    onClick={() =>
+                      navigate(
+                        `/antibiotics/${encodeURIComponent(
+                          ab.group
+                        )}/${encodeURIComponent(antibioticName)}`
+                      )
+                    }
+                  >
                     {antibioticName}
                   </button>
                 </li>
@@ -193,12 +215,23 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             {bact.antibioticsResistent.map((antibioticName) =>
               allAntibiotics.includes(antibioticName) ? (
                 <li key={antibioticName}>
-                  <button onClick={() => setLinkedSpecimenName(antibioticName)}>
+                  <button
+                    className={buttonClass}
+                    onClick={() =>
+                      navigate(
+                        `/antibiotics/${encodeURIComponent(
+                          ab.group
+                        )}/${encodeURIComponent(antibioticName)}`
+                      )
+                    }
+                  >
                     {antibioticName}
                   </button>
                 </li>
               ) : (
-                <li key={antibioticName}>{antibioticName}</li>
+                <li key={antibioticName}>
+                  <button className={buttonClass}>{antibioticName}</button>
+                </li>
               )
             )}
           </ul>

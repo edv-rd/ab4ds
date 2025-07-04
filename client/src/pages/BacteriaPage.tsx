@@ -5,8 +5,12 @@ import type { Bacteria } from "../types";
 import SearchBar from "../components/SearchBar.tsx";
 import ViewSpecimen from "../components/ViewSpecimen";
 import AddForm from "../components/AddForm.tsx";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const BacteriaPage: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { name } = useParams<{ name?: string }>();
   const [bacteria, setBacteria] = useState<Bacteria[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,6 +31,21 @@ const BacteriaPage: React.FC = () => {
     fetchData();
   }, []);
 
+  // Reset selection when navigating to /bacteria (no params)
+  useEffect(() => {
+    if (location.pathname === "/bacteria") {
+      setSelectedBacteria(null);
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
+    setSelectedBacteria(name ?? null);
+  }, [name]);
+
+  const handleSelectBacteria = (bacteriaName: string) => {
+    navigate(`/bacteria/${encodeURIComponent(bacteriaName)}`);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,7 +64,7 @@ const BacteriaPage: React.FC = () => {
       {selectedBacteria && (
         <ViewSpecimen name={selectedBacteria} antibiotic={false} />
       )}
-      <TreeView data={bacteria} setSelectedBacteria={setSelectedBacteria} />
+      <TreeView data={bacteria} setSelectedBacteria={handleSelectBacteria} />
       <AddForm isAntibiotic={false} />
     </div>
   );

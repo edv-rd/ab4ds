@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import TreeView from "../components/TreeView";
 import SearchBar from "../components/SearchBar";
 import AddForm from "../components/AddForm";
@@ -10,9 +10,11 @@ import type { Antibiotic } from "../types";
 
 const AntibioticsPage: React.FC = () => {
   const { group, name } = useParams<{ name?: string; group?: string }>();
+  const location = useLocation();
   const [antibiotics, setAntibiotics] = useState<Antibiotic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
   const [selectedAntibiotic, setSelectedAntibiotic] = useState<string | null>(
     null
   );
@@ -42,6 +44,14 @@ const AntibioticsPage: React.FC = () => {
     }
   }, [name]);
 
+  const handleSelectAntibiotic = (antibiotic: Antibiotic) => {
+    navigate(
+      `/antibiotics/${encodeURIComponent(
+        antibiotic.group
+      )}/${encodeURIComponent(antibiotic.name)}`
+    );
+  };
+
   useEffect(() => {
     if (group) {
       // Perform some action based on the `group` parameter
@@ -49,6 +59,13 @@ const AntibioticsPage: React.FC = () => {
       console.log("Selected group:", selectedAntibioticGroup);
     }
   }, [group]);
+
+  // Reset selection when navigating to /antibiotics (no params)
+  useEffect(() => {
+    if (location.pathname === "/antibiotics") {
+      setSelectedAntibiotic(null);
+    }
+  }, [location.pathname]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -71,7 +88,7 @@ const AntibioticsPage: React.FC = () => {
 
       <TreeView
         data={antibiotics}
-        setSelectedAntibiotic={setSelectedAntibiotic}
+        setSelectedAntibiotic={handleSelectAntibiotic}
       />
       <AddForm isAntibiotic={true} />
     </div>

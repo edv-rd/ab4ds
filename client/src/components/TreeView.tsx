@@ -3,7 +3,7 @@ import type { Antibiotic, Bacteria } from "../types";
 
 interface TreeViewProps {
   data: Antibiotic[] | Bacteria[];
-  setSelectedAntibiotic?: (antibioticName: string) => void;
+  setSelectedAntibiotic?: (antibiotic: Antibiotic) => void;
   setSelectedBacteria?: (bacteriaName: string) => void;
 }
 
@@ -14,7 +14,7 @@ const TreeView: React.FC<TreeViewProps> = ({
 }) => {
   const handleAntibioticSelect = (antibiotic: Antibiotic) => {
     if (setSelectedAntibiotic) {
-      setSelectedAntibiotic(antibiotic.name); // Pass the name (or id if you prefer)
+      setSelectedAntibiotic(antibiotic);
     }
   };
 
