@@ -10,16 +10,6 @@ interface ViewSpecimenProps {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-interface PopulatedBacteria {
-  _id: string;
-  name: string;
-}
-
-interface PopulatedBacteria {
-  _id: string;
-  name: string;
-}
-
 interface AntibioticData {
   name: string;
   laktam: boolean;
@@ -185,7 +175,7 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
           <strong>Antibiotics Sensitive:</strong>
           <ul>
             {bact.antibioticsSensitive.map((antibioticName) =>
-              allBacteria.includes(antibioticName) ? (
+              allAntibiotics.includes(antibioticName) ? (
                 <li key={antibioticName}>
                   <button onClick={() => setLinkedSpecimenName(antibioticName)}>
                     {antibioticName}
@@ -201,7 +191,7 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
           <strong>Antibiotics Resistent:</strong>
           <ul>
             {bact.antibioticsResistent.map((antibioticName) =>
-              allBacteria.includes(antibioticName) ? (
+              allAntibiotics.includes(antibioticName) ? (
                 <li key={antibioticName}>
                   <button onClick={() => setLinkedSpecimenName(antibioticName)}>
                     {antibioticName}

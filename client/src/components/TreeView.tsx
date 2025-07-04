@@ -34,35 +34,41 @@ const TreeView: React.FC<TreeViewProps> = ({
   return (
     <div>
       {isAntibioticData(data) ? (
-        <>
-          <h2>Antibiotics</h2>
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md mb-4 container flex flex-col items-left gap-4">
+          <h2 className="text-m font-bold text-white mb-4">Antibiotics</h2>
           <ul>
             {data.map((antibiotic) => (
               <li
+                className="text-xl font-bold text-white mb-4"
                 key={antibiotic.name}
                 onClick={() => handleAntibioticSelect(antibiotic)}
               >
                 {antibiotic.name}
-                <div>Group: {antibiotic.group}</div>
+                <div className="text-m font-thin text-white mb-4">
+                  {antibiotic.group}
+                </div>
               </li>
             ))}
           </ul>
-        </>
+        </div>
       ) : (
-        <>
-          <h2>Bacteria</h2>
+        <div className="bg-gray-800 p-4 rounded-lg shadow-md mb-4 container flex flex-col items-left gap-4">
+          <h2 className="text-m font-bold text-white mb-4">Bacteria</h2>
           <ul>
             {data.map((bacterium) => (
               <li
+                className="text-xl font-bold text-white mb-4"
                 key={bacterium.name}
                 onClick={() => handleBacteriaSelect(bacterium)}
               >
                 {bacterium.name}
-                <div>{bacterium.trivia}</div>
+                <div className="text-m font-thin text-white mb-4">
+                  {bacterium.trivia}
+                </div>
               </li>
             ))}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );

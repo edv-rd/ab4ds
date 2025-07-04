@@ -40,27 +40,9 @@ const addBacteria = async (req, res) => {
   } = req.body;
 
   // Try to resolve antibiotic names to ObjectIds, fallback to string if not found
-  const resolveAntibiotics = async (arr) => {
-    return Promise.all(
-      (arr || []).map(async (antib) => {
-        // Try to find by name first
-        let found = await Antibiotic.findOne({ name: antib });
-        // If not found and antib is a valid ObjectId, try by ID
-        if (!found && mongoose.Types.ObjectId.isValid(antib)) {
-          found = await Antibiotic.findById(antib);
-        }
-        return found ? found._id : null; // return null if not found or empty
-      })
-    );
-  };
+  
 
-  antibioticsSensitive = (await resolveAntibiotics(antibioticsSensitive)).filter(
-    (id) => id && mongoose.Types.ObjectId.isValid(id)
-  );
-  antibioticsResistent = (await resolveAntibiotics(antibioticsResistent)).filter(
-    (id) => id && mongoose.Types.ObjectId.isValid(id)
-  );
-
+  
   try {
     const bacteria = new Bacteria({
       name,

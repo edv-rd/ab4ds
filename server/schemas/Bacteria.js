@@ -10,8 +10,8 @@ const BacteriaSchema = new Schema({
   laktamasProducer: { type: Boolean, required: true }, // "ej kapslad"
   antibioticsSensitive: [{ type: String }], // egentligen en array med Antibiotic-schemas
   antibioticsResistent: [{ type: String }], // egentligen en array med Antibiotic-schemas
-  extendedResistance: [{ type: String, required: true }], // antingen "ESBL" eller "MRSA" eller "VRE" eller "ingen känd"
-  trivia: { type: String, required: true }, // "orsakar gärna:" eller "random fakta"
+  extendedResistance: [{ type: String }], // antingen "ESBL" eller "MRSA" eller "VRE" eller "ingen känd"
+  trivia: { type: String }, // "orsakar gärna:" eller "random fakta"
 });
 const BacteriaModel = mongoose.model(
   "Bacteria",

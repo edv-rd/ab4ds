@@ -8,7 +8,7 @@ import Navigation from "./components/Navigation";
 const App: React.FC = () => {
   return (
     <Router>
-      <div>
+      <div className="container bg-gray-950 text-white mx-auto p-4 w-full min-h-screen">
         <Navigation />
         <Routes>
           <Route path="/" element={<HomePage />} />

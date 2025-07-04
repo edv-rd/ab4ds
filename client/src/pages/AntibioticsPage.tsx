@@ -59,8 +59,7 @@ const AntibioticsPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Antibiotics</h1>
+    <div className="container bg-gray-950 text-white mx-auto p-4 w-full min-h-screen flex flex-col items-left gap-4">
       <SearchBar
         onSearch={(query: string) => {
           console.log("Search query:", query);
@@ -74,7 +73,7 @@ const AntibioticsPage: React.FC = () => {
         data={antibiotics}
         setSelectedAntibiotic={setSelectedAntibiotic}
       />
-      <AddForm />
+      <AddForm isAntibiotic={true} />
     </div>
   );
 };

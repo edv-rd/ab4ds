@@ -4,6 +4,7 @@ import { fetchBacteria } from "../utils/fetchBacteria";
 import type { Bacteria } from "../types";
 import SearchBar from "../components/SearchBar.tsx";
 import ViewSpecimen from "../components/ViewSpecimen";
+import AddForm from "../components/AddForm.tsx";
 
 const BacteriaPage: React.FC = () => {
   const [bacteria, setBacteria] = useState<Bacteria[]>([]);
@@ -35,8 +36,7 @@ const BacteriaPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <h1>Bacteria</h1>
+    <div className="container bg-gray-950 text-white mx-auto p-4 w-full min-h-screen flex flex-col items-left gap-4">
       <SearchBar
         onSearch={(query: string) => {
           console.log("Search query:", query);
@@ -46,6 +46,7 @@ const BacteriaPage: React.FC = () => {
         <ViewSpecimen name={selectedBacteria} antibiotic={false} />
       )}
       <TreeView data={bacteria} setSelectedBacteria={setSelectedBacteria} />
+      <AddForm isAntibiotic={false} />
     </div>
   );
 };

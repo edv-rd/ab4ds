@@ -11,12 +11,13 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({
   };
 
   return (
-    <div>
+    <div className="bg-gray-500 p-4 rounded-lg shadow-md mb-4 container flex flex-col items-left gap-4">
       <input
         type="text"
         placeholder="Search for antibiotics or bacteria..."
         value={query}
         onChange={handleChange}
+        className="text-s font-bold text-gray-900"
       />
     </div>
   );
