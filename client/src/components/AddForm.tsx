@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import { putAntibiotic } from "../utils/putAntibiotic";
 import { putBacteria } from "../utils/putBacteria";
+import {
+  itemContainerClass,
+  itemContainerClassSub,
+  inputClass,
+  checkboxClass,
+  flexClass,
+  labelClass,
+  containerClass,
+  h2Class,
+  toggleLabelClass,
+} from "../styles/styles";
+import ToggleButton from "./ToggleButton";
 
 interface AddFormProps {
   isAntibiotic: boolean;
@@ -82,26 +94,17 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
     }
   };
 
-  const inputClass =
-    "block w-full px-3 py-2 rounded-md bg-gray-900 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2";
-
-  const checkboxClass =
-    "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
-
-  const flexClass = "flex flex-col items-left gap-4 mb-4";
-
-  const labelClass = "text-sm font-medium text-gray-300 mb-1";
   return (
-    <div className="container bg-gray-800 rounded-lg shadow-md text-white mx-auto p-4 w-full min-h-screen ">
+    <div className={containerClass}>
       <form onSubmit={handleSubmit}>
-        <h2 className="text-xl font-bold mb-4">
+        <h2 className={h2Class}>
           {isAntibiotic ? "Add Antibiotic" : "Add Bacteria"}
         </h2>
         {isAntibiotic ? (
-          <div className={flexClass}>
-            <div>
+          <div className={itemContainerClass}>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Name:
+                Name
                 <input
                   type="text"
                   value={antibioticName}
@@ -111,20 +114,24 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={laktam}
-                  onChange={() => setLaktam(!laktam)}
-                  className={checkboxClass}
-                />
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setLaktam(!laktam)}
+                iconToggled={laktam}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  laktam ? "font-bold" : "font-medium"
+                }`}
+              >
                 Laktam
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Group:
+                Group
                 <input
                   type="text"
                   value={group}
@@ -134,20 +141,24 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={baktericid}
-                  onChange={() => setBaktericid(!baktericid)}
-                  className={checkboxClass}
-                />
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setBaktericid(!baktericid)}
+                iconToggled={baktericid}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  baktericid ? "font-bold" : "font-medium"
+                }`}
+              >
                 Baktericid
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Bacteria Killed (comma separated):
+                Bacteria Killed (comma separated)
                 <input
                   type="text"
                   value={bacteriaKilled}
@@ -156,9 +167,9 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Bacteria Not Killed (comma separated):
+                Bacteria Not Killed (comma separated)
                 <input
                   type="text"
                   value={bacteriaNotKilled}
@@ -167,9 +178,9 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Dosage:
+                Dosage
                 <input
                   type="text"
                   value={dosage}
@@ -178,9 +189,9 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
-                Observandum (comma separated):
+                Observandum (comma separated)
                 <input
                   type="text"
                   value={observandum}
@@ -191,8 +202,8 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
             </div>
           </div>
         ) : (
-          <div className={flexClass}>
-            <div>
+          <div className={itemContainerClass}>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Name:
                 <input
@@ -204,18 +215,22 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={gramStainPositive}
-                  onChange={() => setGramStainPositive(!gramStainPositive)}
-                  className={checkboxClass}
-                />
-                Gram Stain:
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setGramStainPositive(!gramStainPositive)}
+                iconToggled={gramStainPositive}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  gramStainPositive ? "font-bold" : "font-medium"
+                }`}
+              >
+                Gram Stain
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Shape:
                 <input
@@ -226,40 +241,52 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={capsule}
-                  onChange={() => setCapsule(!capsule)}
-                  className={checkboxClass}
-                />
-                Capsule:
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setCapsule(!capsule)}
+                iconToggled={capsule}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  capsule ? "font-bold" : "font-medium"
+                }`}
+              >
+                Capsule
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={aerob}
-                  onChange={() => setAerob(!aerob)}
-                  className={checkboxClass}
-                />
-                Aerob:
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setAerob(!aerob)}
+                iconToggled={aerob}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  aerob ? "font-bold" : "font-medium"
+                }`}
+              >
+                Aerob
               </label>
             </div>
-            <div>
-              <label className={labelClass}>
-                <input
-                  type="checkbox"
-                  checked={laktamasProducer}
-                  onChange={() => setLaktamasProducer(!laktamasProducer)}
-                  className={checkboxClass}
-                />
-                Laktamas Producer:
+            <div
+              className={`${itemContainerClassSub} flex flex-row items-center gap-2`}
+            >
+              <ToggleButton
+                onClick={() => setLaktamasProducer(!laktamasProducer)}
+                iconToggled={laktamasProducer}
+              />
+              <label
+                className={`${toggleLabelClass} ${
+                  laktamasProducer ? "font-bold" : "font-medium"
+                }`}
+              >
+                Laktamasproducer
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Antibiotics Sensitive (comma separated):
                 <input
@@ -270,7 +297,7 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Antibiotics Resistent (comma separated):
                 <input
@@ -281,7 +308,7 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Extended Resistance:
                 <input
@@ -292,7 +319,7 @@ const AddForm: React.FC<AddFormProps> = ({ isAntibiotic }) => {
                 />
               </label>
             </div>
-            <div>
+            <div className={itemContainerClassSub}>
               <label className={labelClass}>
                 Trivia:
                 <input
