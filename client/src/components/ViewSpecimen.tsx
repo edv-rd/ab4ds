@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import { fetchBacteria } from "../utils/fetchBacteria";
 import { fetchAntibiotics } from "../utils/fetchAntibiotics";
 import { useNavigate } from "react-router-dom";
+import {
+  h2Class,
+  itemClass,
+  itemContainerClass,
+  buttonClass,
+  containerClass,
+} from "../styles/styles";
 
 interface ViewSpecimenProps {
   name?: string;
@@ -77,10 +84,10 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
   useEffect(() => {
     // Fetch all names for lookup
     fetchBacteria().then((bacteria) =>
-      setAllBacteria(bacteria.map((b) => b.name))
+      setAllBacteria(bacteria.map((b: { name: never }) => b.name))
     );
     fetchAntibiotics().then((antibiotics) =>
-      setAllAntibiotics(antibiotics.map((a) => a.name))
+      setAllAntibiotics(antibiotics.map((a: { name: never }) => a.name))
     );
   }, []);
 
@@ -88,15 +95,6 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
   if (error) return <div>Not found: {error}</div>;
   if (!data) return <div>No data found.</div>;
 
-  // If a linked specimen is selected, show it recursively
-
-  const containerClass =
-    "container bg-gray-800 rounded-lg shadow-md text-white mx-auto p-4 w-full flex flex-col items-left gap-4";
-
-  const h2Class = "text-2xl font-bold mb-4";
-
-  const buttonClass =
-    "text-blue-400 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50";
   const ab = data as AntibioticData;
   const bact = data as BacteriaData;
 
@@ -104,17 +102,18 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
     return (
       <div className={containerClass}>
         <h2 className={h2Class}>{ab.name}</h2>
-        <div>
-          <strong>Laktam:</strong> {ab.laktam ? "Yes" : "No"}
+        <div className={itemContainerClass}>
+          <strong className={itemClass}>Laktam</strong>
+          {ab.laktam ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Group:</strong> {ab.group}
+        <div className={itemContainerClass}>
+          <strong>Group</strong> {ab.group}
         </div>
-        <div>
-          <strong>Baktericid:</strong> {ab.baktericid ? "Yes" : "No"}
+        <div className={itemContainerClass}>
+          <strong>Baktericid</strong> {ab.baktericid ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Bacteria Killed:</strong>
+        <div className={itemContainerClass}>
+          <strong>Bacteria Killed</strong>
           <ul>
             {ab.bacteriaKilled.map((bactName) =>
               allBacteria.includes(bactName) ? (
@@ -134,8 +133,8 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             )}
           </ul>
         </div>
-        <div>
-          <strong>Bacteria Not Killed:</strong>
+        <div className={itemContainerClass}>
+          <strong>Bacteria Not Killed</strong>
           <ul>
             {ab.bacteriaNotKilled.map((bactName) =>
               allBacteria.includes(bactName) ? (
@@ -155,11 +154,11 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             )}
           </ul>
         </div>
-        <div>
-          <strong>Dosage:</strong> {ab.dosage}
+        <div className={itemContainerClass}>
+          <strong>Dosage</strong> {ab.dosage}
         </div>
-        <div>
-          <strong>Observandum:</strong> {ab.observandum.join(", ")}
+        <div className={itemContainerClass}>
+          <strong>Observandum</strong> {ab.observandum.join(", ")}
         </div>
       </div>
     );
@@ -167,25 +166,25 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
     return (
       <div className={containerClass}>
         <h2 className={h2Class}>{bact.name}</h2>
-        <div>
-          <strong>Gram Stain Positive:</strong>{" "}
+        <div className={itemContainerClass}>
+          <strong>Gram Stain Positive</strong>{" "}
           {bact.gramStainPositive ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Shape:</strong> {bact.shape}
+        <div className={itemContainerClass}>
+          <strong>Shape</strong> {bact.shape}
         </div>
-        <div>
-          <strong>Capsule:</strong> {bact.capsule ? "Yes" : "No"}
+        <div className={itemContainerClass}>
+          <strong>Capsule</strong> {bact.capsule ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Aerob:</strong> {bact.aerob ? "Yes" : "No"}
+        <div className={itemContainerClass}>
+          <strong>Aerob</strong> {bact.aerob ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Laktamas Producer:</strong>
+        <div className={itemContainerClass}>
+          <strong>Laktamas Producer</strong>
           {bact.laktamasProducer ? "Yes" : "No"}
         </div>
-        <div>
-          <strong>Antibiotics Sensitive:</strong>
+        <div className={itemContainerClass}>
+          <strong>Antibiotics Sensitive</strong>
           <ul>
             {bact.antibioticsSensitive.map((antibioticName) =>
               allAntibiotics.includes(antibioticName) ? (
@@ -209,8 +208,8 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             )}
           </ul>
         </div>
-        <div>
-          <strong>Antibiotics Resistent:</strong>
+        <div className={itemContainerClass}>
+          <strong>Antibiotics Resistent</strong>
           <ul>
             {bact.antibioticsResistent.map((antibioticName) =>
               allAntibiotics.includes(antibioticName) ? (
@@ -236,11 +235,11 @@ const ViewSpecimen: React.FC<ViewSpecimenProps> = ({
             )}
           </ul>
         </div>
-        <div>
-          <strong>Extended Resistance:</strong> {bact.extendedResistance}
+        <div className={itemContainerClass}>
+          <strong>Extended Resistance</strong> {bact.extendedResistance}
         </div>
-        <div>
-          <strong>Trivia:</strong> {bact.trivia}
+        <div className={itemContainerClass}>
+          <strong>Trivia</strong> {bact.trivia}
         </div>
       </div>
     );
