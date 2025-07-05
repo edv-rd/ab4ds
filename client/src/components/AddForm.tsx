@@ -5,8 +5,6 @@ import {
   itemContainerClass,
   itemContainerClassSub,
   inputClass,
-  checkboxClass,
-  flexClass,
   labelClass,
   containerClass,
   h2Class,
