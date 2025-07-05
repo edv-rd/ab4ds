@@ -1,7 +1,7 @@
 import React from "react";
 import type { Antibiotic, Bacteria } from "../types";
 import { itemContainerClass, itemContainerClassSub } from "../styles/styles";
-import ToggleGroupButton from "./ToggleGroupButton";
+import ToggleButton from "./ToggleButton";
 
 interface TreeViewProps {
   data: Antibiotic[] | Bacteria[];
@@ -57,9 +57,9 @@ const TreeView: React.FC<TreeViewProps> = ({
           {groupAntibiotics(data).map(([group, antibiotics]) => (
             <div className={itemContainerClass} key={group}>
               <div className="flex flex-row items-center gap-2 mb-4">
-                <ToggleGroupButton
+                <ToggleButton
                   onClick={() => setShowGroup((prev) => !prev)}
-                  showGroup={showGroup}
+                  iconToggled={showGroup}
                 />
                 <div className="text-lg font-semibold mb-2">{group}</div>
               </div>
